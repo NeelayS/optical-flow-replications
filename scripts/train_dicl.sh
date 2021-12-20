@@ -10,4 +10,7 @@
 
 module load cuda/10.2
 cd ../
-python dicl.py
+python train.py --train_cfg "configs/trainers/dicl_trainer.yaml" \
+                --model "DICL" \
+                --log_dir "./logs/dicl/run1" \
+                --ckpt_dir "./ckpts/dicl/run1"

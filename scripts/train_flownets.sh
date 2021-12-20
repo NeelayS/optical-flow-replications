@@ -10,4 +10,7 @@
 
 module load cuda/10.2
 cd ../
-python flownets.py
+python train.py --train_cfg "configs/trainers/flownets_trainer.yaml" \
+                --model "FlowNetS" \
+                --log_dir "./logs/flownets/run1" \
+                --ckpt_dir "./ckpts/flownets/run1"

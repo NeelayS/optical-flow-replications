@@ -10,4 +10,7 @@
 
 module load cuda/10.2
 cd ../
-python pwcnet.py
+python train.py --train_cfg "configs/trainers/pwcnet_trainer.yaml" \
+                --model "PWCNet" \
+                --log_dir "./logs/pwcnet/run1" \
+                --ckpt_dir "./ckpts/pwcnet/run1"

@@ -10,4 +10,7 @@
 
 module load cuda/10.2
 cd ../
-python raft.py
+python train.py --train_cfg "configs/trainers/raft_trainer.yaml" \
+                --model "RAFT" \
+                --log_dir "./logs/raft/run2" \
+                --ckpt_dir "./ckpts/raft/run2"
