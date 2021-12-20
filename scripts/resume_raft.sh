@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #SBATCH --nodes=1
 #SBATCH --time=08:00:00
 #SBATCH --job-name=resume-raft-run2
@@ -8,10 +9,10 @@
 #SBATCH --output=outs/raft/resume_run2.out
 
 module load cuda/10.2
-cd ../..
+cd ../
 python train.py --train_cfg "configs/trainers/raft_trainer.yaml" \
                 --model "RAFT" \
-                --log_dir "./logs/raft/run2" \
-                --ckpt_dir "./ckpts/raft/run2"
+                --log_dir "logs/raft/run2" \
+                --ckpt_dir "ckpts/raft/run2"
                 --resume True \
-                --resume_ckpt "./ckpts/raft/run2/raft_epochs13.pth"
+                --resume_ckpt "ckpts/raft/run2/raft_epochs13.pth"
