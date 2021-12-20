@@ -4,8 +4,6 @@ from ezflow.data import DataloaderCreator
 from ezflow.engine import Trainer, get_training_cfg
 from ezflow.models import build_model
 
-from flow_transformer import *
-
 
 def main():
 
@@ -18,7 +16,7 @@ def main():
         "--model", type=str, required=True, help="Name of the model to train"
     )
     parser.add_argument(
-        "--model_cfg", type=str, required=True, help="Path to the model config file"
+        "--model_cfg", type=str, required=False, help="Path to the model config file"
     )
     parser.add_argument(
         "--log_dir",

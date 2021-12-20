@@ -32,9 +32,8 @@ SCHEDULER:
     anneal_strategy: linear
 CRITERION:
   CUSTOM: True
-  NAME: MultiScaleLoss
-  PARAMS: 
-    weights: [1, 0.5, 0.25, 0.125, 0.0625]
+  NAME: SequenceLoss
+  PARAMS: null
 GRAD_CLIP: 
   USE: True
   VALUE: 2.5
@@ -44,7 +43,7 @@ LOG_DIR: "./logs"
 LOG_ITERATIONS_INTERVAL: 100
 CKPT_DIR: "./ckpts"
 CKPT_INTERVAL: 1
-VALIDATE_INTERVAL: 1
+VALIDATE_INTERVAL: 2
 VALIDATE_ON: metric
 EPOCHS: 13
 RESUME_TRAINING:

@@ -6,11 +6,11 @@
 #SBATCH --partition=gpu
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:v100-sxm2:1
-#SBATCH --output=outs/dicl/run1.out
+#SBATCH --output=../outs/dicl/run1.out
 
 module load cuda/10.2
 cd ../
-python train.py --train_cfg "configs/trainers/dicl_trainer.yaml" \
+python train.py --train_cfg "configs/dicl_trainer.yaml" \
                 --model "DICL" \
                 --log_dir "./logs/dicl/run1" \
                 --ckpt_dir "./ckpts/dicl/run1"
