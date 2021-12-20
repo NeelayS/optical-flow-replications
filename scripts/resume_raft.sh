@@ -15,4 +15,4 @@ python train.py --train_cfg "./configs/raft_trainer.yaml" \
                 --log_dir "./logs/raft/run2" \
                 --ckpt_dir "./ckpts/raft/run2" \
                 --resume True \
-                --resume_ckpt "./ckpts/raft/run2/raft_epochs11.pth"
+                --resume_ckpt "./ckpts/raft/run2/raft_epochs13.pth"
