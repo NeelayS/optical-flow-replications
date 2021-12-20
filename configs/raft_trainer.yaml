@@ -1,0 +1,53 @@
+DATA:
+  ROOT_DIR: null
+  BATCH_SIZE: 16
+  NUM_WORKERS: 1
+  PIN_MEMORY: True
+  TARGET_SCALE_FACTOR: 1.0
+  AUGMENTATION:
+    USE: True
+    PARAMS:
+      CROP_SIZE: [256, 256]
+      TRAINING:
+        SPATIAL_AUG_PARAMS: {"min_scale": -0.1, "max_scale": 1.0, "flip": True}
+      VALIDATION:
+        SPATIAL_AUG_PARAMS: {"aug_prob": 0.0}
+        COLOR_AUG_PARAMS: {"aug_prob": 0.0}
+        ERASER_AUG_PARAMS: {"aug_prob": 0.0}
+OPTIMIZER:
+  NAME: AdamW
+  LR: 0.0004
+  PARAMS:
+    weight_decay: 0.0001
+    eps: 1.e-08
+SCHEDULER:
+  USE: True
+  NAME: OneCycleLR
+  PARAMS:
+    max_lr: 0.0004
+    epochs: 13
+    steps_per_epoch: 1400
+    pct_start: 0.05
+    cycle_momentum: False
+    anneal_strategy: linear
+CRITERION:
+  CUSTOM: True
+  NAME: SequenceLoss
+  PARAMS: null
+GRAD_CLIP: 
+  USE: True
+  VALUE: 2.5
+DEVICE: "0"
+DISTRIBUTED: True
+LOG_DIR: "./logs/raft/run1"
+LOG_ITERATIONS_INTERVAL: 1000
+VALIDATE_INTERVAL: 1
+VALIDATE_ON: metric
+CKPT_DIR: "./ckpts/raft/run1"
+CKPT_INTERVAL: 1
+EPOCHS: 13
+RESUME_TRAINING:
+  CONSOLIDATED_CKPT: null
+  EPOCHS: 13
+  START_EPOCH: null
+

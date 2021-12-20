@@ -1,0 +1,50 @@
+DATA:
+  ROOT_DIR: null
+  BATCH_SIZE: 16
+  NUM_WORKERS: 1
+  PIN_MEMORY: True
+  TARGET_SCALE_FACTOR: 20.0
+  AUGMENTATION:
+    USE: True
+    PARAMS:
+      CROP_SIZE: [256, 256]
+      TRAINING:
+        SPATIAL_AUG_PARAMS: {"min_scale": -0.1, "max_scale": 1.0, "flip": True}
+      VALIDATION:
+        SPATIAL_AUG_PARAMS: {"aug_prob": 0.0}
+        COLOR_AUG_PARAMS: {"aug_prob": 0.0}
+        ERASER_AUG_PARAMS: {"aug_prob": 0.0}
+OPTIMIZER:
+  NAME: AdamW
+  PARAMS:
+    lr: 0.0004
+    weight_decay: 0.0001
+    eps: 1.e-08
+SCHEDULER:
+  USE: False
+  NAME: StepLR
+  PARAMS:
+    step_size: 10
+    gamma: 0.1
+CRITERION:
+  CUSTOM: True
+  NAME: MultiScaleLoss
+  PARAMS:
+    weights: [1, 0.5, 0.25, 0.125, 0.0625]
+GRAD_CLIP: 
+  USE: True
+  VALUE: 2.5
+DEVICE: "0"
+DISTRIBUTED: True
+LOG_DIR: "./logs/pwcnet/run1"
+LOG_ITERATIONS_INTERVAL: 1000
+VALIDATE_INTERVAL: 1
+VALIDATE_ON: loss
+CKPT_DIR: "./ckpts/pwcnet/run1"
+CKPT_INTERVAL: 1
+EPOCHS: 20
+RESUME_TRAINING:
+  CONSOLIDATED_CKPT: null
+  EPOCHS: 20
+  START_EPOCH: null
+
