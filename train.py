@@ -61,6 +61,12 @@ def main():
         default=False,
         help="Whether to do distributed training",
     )
+    parser.add_argument(
+        "--dataset",
+        type=str,
+        default="FlyingChairs",
+        help="Dataset to use",
+    )
     parser.add_argument("--lr", type=float, required=False, help="Learning rate")
 
     args = parser.parse_args()
@@ -79,32 +85,57 @@ def main():
         num_workers=training_cfg.DATA.NUM_WORKERS,
         pin_memory=training_cfg.DATA.PIN_MEMORY,
     )
-    train_loader_creator.add_flying_chairs(
-        root_dir=training_cfg.DATA.ROOT_DIR,
-        augment=training_cfg.DATA.AUGMENTATION.USE,
-        aug_params={
-            "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
-            "spatial_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.TRAINING.SPATIAL_AUG_PARAMS,
-        },
-    )
-    train_loader = train_loader_creator.get_dataloader()
-
     val_loader_creator = DataloaderCreator(
         batch_size=training_cfg.DATA.BATCH_SIZE,
         num_workers=training_cfg.DATA.NUM_WORKERS,
         pin_memory=training_cfg.DATA.PIN_MEMORY,
     )
-    val_loader_creator.add_flying_chairs(
-        root_dir=training_cfg.DATA.ROOT_DIR,
-        split="validation",
-        augment=training_cfg.DATA.AUGMENTATION.USE,
-        aug_params={
-            "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
-            "spatial_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.SPATIAL_AUG_PARAMS,
-            "color_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.COLOR_AUG_PARAMS,
-            "eraser_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.ERASER_AUG_PARAMS,
-        },
-    )
+
+    if args.dataset == "FlyingChairs":
+
+        train_loader_creator.add_flying_chairs(
+            root_dir=training_cfg.DATA.ROOT_DIR,
+            augment=training_cfg.DATA.AUGMENTATION.USE,
+            aug_params={
+                "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
+                "spatial_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.TRAINING.SPATIAL_AUG_PARAMS,
+            },
+        )
+        val_loader_creator.add_flying_chairs(
+            root_dir=training_cfg.DATA.ROOT_DIR,
+            split="validation",
+            augment=training_cfg.DATA.AUGMENTATION.USE,
+            aug_params={
+                "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
+                "spatial_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.SPATIAL_AUG_PARAMS,
+                "color_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.COLOR_AUG_PARAMS,
+                "eraser_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.ERASER_AUG_PARAMS,
+            },
+        )
+
+    elif args.dataset == "FlyingThings3D":
+
+        train_loader_creator.add_flying_things3d(
+            root_dir=training_cfg.DATA.ROOT_DIR,
+            augment=training_cfg.DATA.AUGMENTATION.USE,
+            aug_params={
+                "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
+                "spatial_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.TRAINING.SPATIAL_AUG_PARAMS,
+            },
+        )
+        val_loader_creator.add_flying_things3d(
+            root_dir=training_cfg.DATA.ROOT_DIR,
+            split="validation",
+            augment=training_cfg.DATA.AUGMENTATION.USE,
+            aug_params={
+                "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
+                "spatial_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.SPATIAL_AUG_PARAMS,
+                "color_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.COLOR_AUG_PARAMS,
+                "eraser_aug_params": training_cfg.DATA.AUGMENTATION.PARAMS.VALIDATION.ERASER_AUG_PARAMS,
+            },
+        )
+
+    train_loader = train_loader_creator.get_dataloader()
     val_loader = val_loader_creator.get_dataloader()
 
     if args.model_cfg is not None:

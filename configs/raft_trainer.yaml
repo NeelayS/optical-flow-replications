@@ -1,5 +1,5 @@
 DATA:
-  ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+  ROOT_DIR: "../../../Datasets/SceneFlow/FlyingThings3D" # "../../../Datasets/FlyingChairs_release/data"
   BATCH_SIZE: 16
   NUM_WORKERS: 1
   PIN_MEMORY: True
@@ -21,7 +21,7 @@ OPTIMIZER:
     weight_decay: 0.0001
     eps: 1.e-08
 SCHEDULER:
-  USE: True
+  USE: False # True
   NAME: OneCycleLR
   PARAMS:
     max_lr: 0.0004
