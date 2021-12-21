@@ -4,8 +4,6 @@ from ezflow.data import DataloaderCreator
 from ezflow.engine import eval_model
 from ezflow.models import build_model
 
-from flow_transformer import *
-
 
 def main():
 
@@ -28,7 +26,7 @@ def main():
     )
     parser.add_argument("--device", type=str, default="0", help="Device ID")
     parser.add_argument("--bs", type=int, default=16, help="Batch size")
-    parser.add_argument("--crop_size", type=int, default=256, help="Crop size")
+    parser.add_argument("--crop_size", type=str, default="368,496", help="Crop size")
     parser.add_argument("--dataset", type=str, default="sintel", help="Dataset")
 
     args = parser.parse_args()
@@ -47,10 +45,7 @@ def main():
             dstype="final",
             augment=True,
             aug_params={
-                "crop_size": [
-                    args.crop_size,
-                    args.crop_size,
-                ],  # list(map(int, args.crop_size.split(",")))
+                "crop_size": list(map(int, args.crop_size.split(","))),
                 "spatial_aug_params": {"aug_prob": 0.0},
                 "color_aug_params": {"aug_prob": 0.0},
                 "eraser_aug_params": {"aug_prob": 0.0},
@@ -64,10 +59,7 @@ def main():
             split="validation",
             augment=True,
             aug_params={
-                "crop_size": [
-                    args.crop_size,
-                    args.crop_size,
-                ],  # list(map(int, args.crop_size.split(",")))
+                "crop_size": list(map(int, args.crop_size.split(","))),
                 "spatial_aug_params": {"aug_prob": 0.0},
                 "color_aug_params": {"aug_prob": 0.0},
                 "eraser_aug_params": {"aug_prob": 0.0},
@@ -81,7 +73,7 @@ def main():
             args.model, cfg_path=args.model_cfg, custom_cfg=True, weights_path=args.ckpt
         )
     else:
-        model = build_model(args.model, weights_path=args.ckpt)
+        model = build_model(args.model, default=True, weights_path=args.ckpt)
 
     eval_model(model, val_loader, args.device)
 
