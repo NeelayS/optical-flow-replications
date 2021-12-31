@@ -94,7 +94,7 @@ def main():
     if args.dataset == "FlyingChairs":
 
         train_loader_creator.add_flying_chairs(
-            root_dir=training_cfg.DATA.ROOT_DIR,
+            root_dir="../../../Datasets/FlyingChairs_release/data",
             augment=training_cfg.DATA.AUGMENTATION.USE,
             aug_params={
                 "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
@@ -102,7 +102,7 @@ def main():
             },
         )
         val_loader_creator.add_flying_chairs(
-            root_dir=training_cfg.DATA.ROOT_DIR,
+            root_dir="../../../Datasets/FlyingChairs_release/data",
             split="validation",
             augment=training_cfg.DATA.AUGMENTATION.USE,
             aug_params={
@@ -116,7 +116,7 @@ def main():
     elif args.dataset == "FlyingThings3D":
 
         train_loader_creator.add_flying_things3d(
-            root_dir=training_cfg.DATA.ROOT_DIR,
+            root_dir="../../../Datasets/SceneFlow/FlyingThings3D",
             augment=training_cfg.DATA.AUGMENTATION.USE,
             aug_params={
                 "crop_size": training_cfg.DATA.AUGMENTATION.PARAMS.CROP_SIZE,
@@ -124,7 +124,7 @@ def main():
             },
         )
         val_loader_creator.add_flying_things3d(
-            root_dir=training_cfg.DATA.ROOT_DIR,
+            root_dir="../../../Datasets/SceneFlow/FlyingThings3D",
             split="validation",
             augment=training_cfg.DATA.AUGMENTATION.USE,
             aug_params={
