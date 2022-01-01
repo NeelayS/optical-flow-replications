@@ -15,5 +15,5 @@ python train.py --train_cfg "./configs/raft_trainer.yaml" \
                 --log_dir "./logs/raft/run3" \
                 --ckpt_dir "./ckpts/raft/run3" \
                 --resume True \
-                --resume_ckpt "./ckpts/raft/run3/raft_epochs10.pth" \
+                --resume_ckpt "./ckpts/raft/run3/raft_epochs22.pth" \
                 --dataset "FlyingChairs" \
