@@ -3,7 +3,7 @@ ENCODER:
   FEATURE: 
     NAME: BasicEncoder
     IN_CHANNELS: 3
-    OUT_CHANNELS: 128
+    OUT_CHANNELS: 256
     NORM: instance
     P_DROPOUT: 0.0
     LAYER_CONFIG: [32, 64, 96]
@@ -11,7 +11,7 @@ ENCODER:
   CONTEXT:
     NAME: BasicEncoder
     IN_CHANNELS: 3
-    OUT_CHANNELS: 128
+    OUT_CHANNELS: 256
     NORM: batch
     P_DROPOUT: 0.0
     LAYER_CONFIG: [32, 64, 96]

@@ -15,5 +15,6 @@ python train.py --train_cfg "./configs/raft_trainer.yaml" \
                 --log_dir "./logs/raft/run2" \
                 --ckpt_dir "./ckpts/raft/run2" \
                 --resume True \
-                --resume_ckpt "./ckpts/raft/run2/raft_epochs46.pth" \
+                --resume_ckpt "./ckpts/raft/run2/raft_epochs50.pth" \
+		--resume_epochs 2 \
                 --dataset "FlyingThings3D" \
