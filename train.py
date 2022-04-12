@@ -19,7 +19,7 @@ def main():
         "--model_cfg", type=str, required=True, help="Path to the model config file"
     )
     parser.add_argument(
-        "--batch_size", type=int, default=16, help="Training batch size"
+        "--batch_size", type=int, default=None, help="Training batch size"
     )
     parser.add_argument(
         "--train_crop_size",
@@ -107,6 +107,12 @@ def main():
         default=None,
         help="Number of epochs to train after resumption",
     )
+    parser.add_argument(
+        "--model_ckpt",
+        type=str,
+        default=None,
+        help="Path to model ckpt for finetuning",
+    )
     parser.add_argument("--device", type=str, default="0", help="Device ID")
     parser.add_argument("--lr", type=float, required=False, help="Learning rate")
 
@@ -116,7 +122,8 @@ def main():
     training_cfg.LOG_DIR = args.log_dir
     training_cfg.CKPT_DIR = args.ckpt_dir
     training_cfg.DEVICE = args.device
-    training_cfg.DATA.BATCH_SIZE = args.batch_size
+    if args.batch_size is not None:
+        training_cfg.DATA.BATCH_SIZE = args.batch_size
     training_cfg.SCHEDULER.USE = args.use_scheduler
     # training_cfg.DISTRIBUTED.BACKEND = args.distributed_backend
 
@@ -147,7 +154,7 @@ def main():
             pin_memory=training_cfg.DATA.PIN_MEMORY,
             distributed=True,
             world_size=training_cfg.DISTRIBUTED.WORLD_SIZE,
-            append_valid_mask=True,
+            append_valid_mask=training_cfg.APPEND_VALID_MASK,
         )
 
         val_loader_creator = DataloaderCreator(
@@ -156,7 +163,7 @@ def main():
             pin_memory=training_cfg.DATA.PIN_MEMORY,
             distributed=True,
             world_size=training_cfg.DISTRIBUTED.WORLD_SIZE,
-            append_valid_mask=True,
+            append_valid_mask=training_cfg.APPEND_VALID_MASK,
         )
 
     else:
@@ -165,14 +172,14 @@ def main():
             batch_size=training_cfg.DATA.BATCH_SIZE,
             num_workers=training_cfg.DATA.NUM_WORKERS,
             pin_memory=training_cfg.DATA.PIN_MEMORY,
-            append_valid_mask=True,
+            append_valid_mask=training_cfg.APPEND_VALID_MASK,
         )
 
         val_loader_creator = DataloaderCreator(
             batch_size=training_cfg.DATA.BATCH_SIZE,
             num_workers=training_cfg.DATA.NUM_WORKERS,
             pin_memory=training_cfg.DATA.PIN_MEMORY,
-            append_valid_mask=True,
+            append_valid_mask=training_cfg.APPEND_VALID_MASK,
         )
 
     if training_cfg.DATA.TRAIN_DATASET.NAME.lower() == "flyingchairs":
@@ -308,7 +315,12 @@ def main():
     train_loader = train_loader_creator.get_dataloader()
     val_loader = val_loader_creator.get_dataloader()
 
-    model = build_model(args.model, cfg_path=args.model_cfg, custom_cfg=True)
+    model = build_model(
+        args.model,
+        cfg_path=args.model_cfg,
+        custom_cfg=True,
+        weights_path=args.model_ckpt,
+    )
 
     trainer = Trainer(training_cfg, model, train_loader, val_loader)
 

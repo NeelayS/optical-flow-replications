@@ -1,9 +1,16 @@
 DATA:
-  ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
-  BATCH_SIZE: 16
+  TRAIN_DATASET:
+    NAME: "flyingchairs"
+    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+  VAL_DATASET:
+    NAME: "flyingchairs"
+    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+  BATCH_SIZE: 10
   NUM_WORKERS: 1
   PIN_MEMORY: True
   TARGET_SCALE_FACTOR: 1
+  TRAIN_CROP_SIZE: [256, 256]
+  VAL_CROP_SIZE: [256, 256]
   AUGMENTATION:
     USE: True
     PARAMS:
@@ -25,8 +32,8 @@ SCHEDULER:
   NAME: OneCycleLR
   PARAMS:
     max_lr: 0.0004
-    epochs: 20
-    steps_per_epoch: 1400
+    epochs: 100
+    steps_per_epoch: 2300
     pct_start: 0.05
     cycle_momentum: False
     anneal_strategy: linear
@@ -37,17 +44,25 @@ CRITERION:
     weights: [1, 0.5, 0.25, 0.125, 0.0625]
 GRAD_CLIP: 
   USE: True
-  VALUE: 2.5
+  VALUE: 1.0
+TARGET_SCALE_FACTOR: 1
+APPEND_VALID_MASK: True
 DEVICE: "0"
-DISTRIBUTED: True
+DISTRIBUTED:
+  USE: False
+  WORLD_SIZE: 2
+  RANK: 0
+  BACKEND: nccl
+  MASTER_ADDR: localhost
+  MASTER_PORT: "12355"
 LOG_DIR: "./logs"
 LOG_ITERATIONS_INTERVAL: 100
 CKPT_DIR: "./ckpts"
 CKPT_INTERVAL: 1
 VALIDATE_INTERVAL: 1
 VALIDATE_ON: metric
-EPOCHS: 20
+EPOCHS: 100
 RESUME_TRAINING:
   CONSOLIDATED_CKPT: null
-  EPOCHS: 20
+  EPOCHS: 100
   START_EPOCH: null
