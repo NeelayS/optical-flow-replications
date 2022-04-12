@@ -348,7 +348,7 @@ def main():
 
         else:
             print("Training")
-            trainer.train(n_epochs=args.epochs)
+            trainer.train()  # n_epochs=args.epochs)
 
 
 if __name__ == "__main__":

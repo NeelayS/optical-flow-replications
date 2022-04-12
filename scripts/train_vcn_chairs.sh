@@ -13,8 +13,8 @@ cd ..
 python train.py --train_cfg "configs/vcn_trainer.yaml" \
                 --model "VCN" \
                 --model_cfg "configs/models/vcn_default.yaml" \
-                --log_dir "../../../Share/optical_flow/replications/logs/vcn" \
-                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/vcn" \
+                --log_dir "../../../Share/optical_flow/replications/logs/vcn/chairs" \
+                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/vcn/chairs" \
                 --epochs 100 \
                 --batch_size 16 \
                 --device "0" 
