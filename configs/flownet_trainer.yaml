@@ -3,8 +3,8 @@ DATA:
     NAME: "flyingchairs"
     ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
   VAL_DATASET:
-    NAME: "flyingchairs"
-    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+    NAME: "MPISintel"
+    ROOT_DIR: "../../../Datasets/MPI_Sintel"
   BATCH_SIZE: 10
   NUM_WORKERS: 1
   PIN_MEMORY: True

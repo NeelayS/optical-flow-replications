@@ -1,20 +1,21 @@
 #!/bin/bash
 
-#SBATCH --nodes=1
-#SBATCH --time=08:00:00
-#SBATCH --job-name=resume-raft-run2
-#SBATCH --partition=gpu
+#SBATCH --time=72:00:00
+#SBATCH --job-name=resume-raft-default-things
+#SBATCH --partition=jiang
 #SBATCH --mem=32G
-#SBATCH --gres=gpu:v100-sxm2:1
-#SBATCH --output=../outs/raft/resume_run2.out
+#SBATCH --gres=gpu:a6000:1
+#SBATCH --output=../../../../Share/optical_flow/replications/outs/raft/resume_things.out
 
-module load cuda/10.2
-cd ../
-python train.py --train_cfg "./configs/raft_trainer.yaml" \
+
+module load cuda/11.3
+cd ..
+python train.py --train_cfg "configs/raft_things_trainer.yaml" \
                 --model "RAFT" \
-                --log_dir "./logs/raft/run2" \
-                --ckpt_dir "./ckpts/raft/run2" \
+                --model_cfg "configs/models/raft_default.yaml" \
+                --log_dir "../../../Share/optical_flow/replications/logs/raft/things" \
+                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/raft/things" \
                 --resume True \
-                --resume_ckpt "./ckpts/raft/run2/raft_epochs50.pth" \
-		--resume_epochs 2 \
-                --dataset "FlyingThings3D" \
+                --resume_epochs 50 \
+                --resume_ckpt "../../../Share/optical_flow/replications/ckpts/raft/things/raft_epochs5.pth" \
+                --device "0" 

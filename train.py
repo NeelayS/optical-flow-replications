@@ -344,7 +344,9 @@ def main():
                 args.resume_ckpt is not None
             ), "Please provide a ckpt to resume training from"
             print("Resuming training")
-            trainer.resume_training(args.resume_ckpt, n_epochs=args.resume_epochs)
+            trainer.resume_training(
+                args.resume_ckpt, total_iterations=args.resume_epochs
+            )
 
         else:
             print("Training")

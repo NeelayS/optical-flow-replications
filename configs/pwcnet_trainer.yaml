@@ -3,18 +3,18 @@ DATA:
     NAME: "flyingchairs"
     ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
   VAL_DATASET:
-    NAME: "flyingchairs"
-    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+    NAME: "MPISintel"
+    ROOT_DIR: "../../../Datasets/MPI_Sintel"
   BATCH_SIZE: 10
   NUM_WORKERS: 1
   PIN_MEMORY: True
   TARGET_SCALE_FACTOR: 1
-  TRAIN_CROP_SIZE: [368, 496]
-  VAL_CROP_SIZE: [368, 496]
+  TRAIN_CROP_SIZE: [256, 256]
+  VAL_CROP_SIZE: [256, 256]
   AUGMENTATION:
     USE: True
     PARAMS:
-      CROP_SIZE: [368, 496]
+      CROP_SIZE: [256, 256]
       TRAINING:
         SPATIAL_AUG_PARAMS: {"min_scale": -0.1, "max_scale": 1.0, "flip": True}
       VALIDATION:
