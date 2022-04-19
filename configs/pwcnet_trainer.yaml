@@ -1,7 +1,7 @@
 DATA:
   TRAIN_DATASET:
-    NAME: "flyingchairs"
-    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+    NAME: "flyingthings3d"
+    ROOT_DIR: "../../../Datasets/SceneFlow/FlyingThings3D"
   VAL_DATASET:
     NAME: "MPISintel"
     ROOT_DIR: "../../../Datasets/MPI_Sintel"
