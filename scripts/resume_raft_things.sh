@@ -13,9 +13,9 @@ cd ..
 python train.py --train_cfg "configs/raft_things_trainer.yaml" \
                 --model "RAFT" \
                 --model_cfg "configs/models/raft_default.yaml" \
-                --log_dir "../../../Share/optical_flow/replications/logs/raft" \
-                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/raft" \
+                --log_dir "../../../Share/optical_flow/replications/logs/raft/run1/things" \
+                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/raft/run1/things" \
                 --resume True \
-                --resume_epochs 50 \
-                --resume_ckpt "../../../Share/optical_flow/replications/ckpts/raft/things/raft_epochs5.pth" \
+                --resume_epochs 24 \
+                --resume_ckpt "../../../Share/optical_flow/replications/ckpts/raft/run1/things/raft_epoch26.pth" \
                 --device "0" 
