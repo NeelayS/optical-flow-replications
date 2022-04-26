@@ -70,7 +70,7 @@ def main():
         val_loader_creator.add_FlyingChairs(
             root_dir=args.data_dir,
             split="validation",
-            crop=False,
+            crop=args.crop,
             crop_type="center",
             crop_size=args.crop_size,
             augment=False,
