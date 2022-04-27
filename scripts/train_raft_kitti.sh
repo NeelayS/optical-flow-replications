@@ -16,5 +16,5 @@ python train.py --train_cfg "configs/raft_kitti_trainer.yaml" \
                 --log_dir "../../../Share/optical_flow/replications/logs/raft/run1/kitti" \
                 --ckpt_dir "../../../Share/optical_flow/replications/ckpts/raft/run1/kitti" \
                 --epochs 250 \
-                --model_ckpt "../../../Share/optical_flow/replications/ckpts/raft/best_ckpts/run1/raft_best_sintel_trained1.pth" \
+                --model_ckpt "../../../Share/optical_flow/replications/ckpts/raft/best_ckpts/run1/raft_best_sintel_trained2.pth" \
                 --device "0" 
