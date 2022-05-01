@@ -1,20 +1,21 @@
 DATA:
   TRAIN_DATASET:
-    NAME: "flyingthings3d"
-    ROOT_DIR: "../../../Datasets/SceneFlow/FlyingThings3D"
+    NAME: "flyingchairs"
+    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
   VAL_DATASET:
-    NAME: "MPISintel"
-    ROOT_DIR: "../../../Datasets/MPI_Sintel"
+    NAME: "flyingchairs"
+    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
   BATCH_SIZE: 10
   NUM_WORKERS: 1
   PIN_MEMORY: True
+  APPEND_VALID_MASK: True
   TARGET_SCALE_FACTOR: 1
-  TRAIN_CROP_SIZE: [256, 256]
-  VAL_CROP_SIZE: [256, 256]
+  TRAIN_CROP_SIZE: [368, 496]
+  VAL_CROP_SIZE: [368, 496]
   AUGMENTATION:
     USE: True
     PARAMS:
-      CROP_SIZE: [256, 256]
+      CROP_SIZE: [368, 496]
       TRAINING:
         SPATIAL_AUG_PARAMS: {"min_scale": -0.1, "max_scale": 1.0, "flip": True}
       VALIDATION:
@@ -32,30 +33,29 @@ SCHEDULER:
   NAME: OneCycleLR
   PARAMS:
     max_lr: 0.0004
-    epochs: 100
-    steps_per_epoch: 2300
+    total_steps: 100000
     pct_start: 0.05
     cycle_momentum: False
     anneal_strategy: linear
 CRITERION:
   CUSTOM: True
-  NAME: MultiScaleLoss
-  PARAMS: 
-    weights: [1, 0.5, 0.25, 0.125, 0.0625]
+  NAME: SequenceLoss
+  PARAMS: null
 GRAD_CLIP: 
   USE: True
   VALUE: 1.0
 TARGET_SCALE_FACTOR: 1
-APPEND_VALID_MASK: False
+APPEND_VALID_MASK: True
 MIXED_PRECISION: False
+FREEZE_BATCH_NORM: False
 DEVICE: "0"
 DISTRIBUTED:
-  USE: False
-  WORLD_SIZE: 2
-  RANK: 0
+  USE: True
+  WORLD_SIZE: 4
   BACKEND: nccl
   MASTER_ADDR: localhost
   MASTER_PORT: "12355"
+  SYNC_BATCH_NORM: True
 LOG_DIR: "./logs"
 LOG_ITERATIONS_INTERVAL: 100
 CKPT_DIR: "./ckpts"

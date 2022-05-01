@@ -1,7 +1,7 @@
 import argparse
 
 from ezflow.data import DataloaderCreator
-from ezflow.engine import Trainer, get_training_cfg
+from ezflow.engine import DistributedTrainer, Trainer, get_training_cfg
 from ezflow.models import build_model
 
 
@@ -70,24 +70,10 @@ def main():
         help="Directory where ckpts are to be saved",
     )
     parser.add_argument(
-        "--distributed_backend",
-        type=str,
-        default="nccl",
-        help="Backend to use for distributed computing",
-    )
-    parser.add_argument(
-        "--world_size", type=int, help="World size for Distributed Training"
-    )
-    parser.add_argument(
         "--epochs",
         type=int,
         default=None,
         help="Number of epochs to train for",
-    )
-    parser.add_argument(
-        "--use_scheduler",
-        action="store_true",
-        help="Enable scheduler",
     )
     parser.add_argument(
         "--resume",
@@ -96,10 +82,28 @@ def main():
         help="Whether to resume training from a previous ckpt",
     )
     parser.add_argument(
+        "--mixed_precision",
+        type=bool,
+        default=False,
+        help="Whether to perform mixed precision training",
+    )
+    parser.add_argument(
         "--resume_ckpt",
         type=str,
         default=None,
         help="Path to ckpt for resuming training",
+    )
+    parser.add_argument(
+        "--world_size",
+        type=int,
+        default=None,
+        help="No. of GPUs to use for distributed training",
+    )
+    parser.add_argument(
+        "--target_scale_factor",
+        type=int,
+        default=None,
+        help="Target scale factor",
     )
     parser.add_argument(
         "--resume_epochs",
@@ -122,10 +126,9 @@ def main():
     training_cfg.LOG_DIR = args.log_dir
     training_cfg.CKPT_DIR = args.ckpt_dir
     training_cfg.DEVICE = args.device
+
     if args.batch_size is not None:
         training_cfg.DATA.BATCH_SIZE = args.batch_size
-    training_cfg.SCHEDULER.USE = args.use_scheduler
-    # training_cfg.DISTRIBUTED.BACKEND = args.distributed_backend
 
     if args.train_ds is not None and args.train_ds_dir is not None:
         training_cfg.DATA.TRAIN_DATASET.NAME = args.train_ds
@@ -138,13 +141,21 @@ def main():
     if args.lr is not None:
         training_cfg.OPTIMIZER.LR = args.lr
 
-    # if args.world_size is not None:
-    #     training_cfg.DISTRIBUTED.WORLD_SIZE = args.world_size
+    if args.world_size is not None:
+        training_cfg.DISTRIBUTED.WORLD_SIZE = args.world_size
+
+    if args.target_scale_factor is not None:
+        training_cfg.TARGET_SCALE_FACTOR = args.target_scale_factor
+        training_cfg.DATA.TARGET_SCALE_FACTOR = args.target_scale_factor
 
     if args.train_crop_size is not None:
         training_cfg.DATA.TRAIN_CROP_SIZE = args.train_crop_size
     if args.val_crop_size is not None:
         training_cfg.DATA.VAL_CROP_SIZE = args.val_crop_size
+
+    if args.mixed_precision is True:
+        print("\nPerforming mixed precision training\n")
+        training_cfg.MIXED_PRECISION = True
 
     if training_cfg.DISTRIBUTED.USE is True:
 
@@ -322,23 +333,30 @@ def main():
         weights_path=args.model_ckpt,
     )
 
-    trainer = Trainer(training_cfg, model, train_loader, val_loader)
-
     if training_cfg.DISTRIBUTED.USE is True:
+
+        trainer = DistributedTrainer(
+            training_cfg,
+            model,
+            train_loader_creator=train_loader_creator,
+            val_loader_creator=val_loader_creator,
+        )
+
         if args.resume:
             assert (
                 args.resume_ckpt is not None
             ), "Please provide a ckpt to resume training from"
             print("Resuming distributed training")
-            trainer.resume_distributed_training(
-                args.resume_ckpt, n_epochs=args.resume_epochs
-            )
+            trainer.resume_training(args.resume_ckpt)
 
         else:
             print("Distributed training")
-            trainer.train_distributed(n_epochs=args.epochs)
+            trainer.train()
 
     else:
+
+        trainer = Trainer(training_cfg, model, train_loader, val_loader)
+
         if args.resume:
             assert (
                 args.resume_ckpt is not None

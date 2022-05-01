@@ -1,13 +1,14 @@
 DATA:
   TRAIN_DATASET:
-    NAME: "flyingthings3d"
-    ROOT_DIR: "../../../Datasets/SceneFlow/FlyingThings3D"
+    NAME: "flyingchairs"
+    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
   VAL_DATASET:
-    NAME: "MPISintel"
-    ROOT_DIR: "../../../Datasets/MPI_Sintel"
-  BATCH_SIZE: 10
+    NAME: "flyingchairs"
+    ROOT_DIR: "../../../Datasets/FlyingChairs_release/data"
+  BATCH_SIZE: 16
   NUM_WORKERS: 1
   PIN_MEMORY: True
+  APPEND_VALID_MASK: True
   TARGET_SCALE_FACTOR: 1
   TRAIN_CROP_SIZE: [256, 256]
   VAL_CROP_SIZE: [256, 256]
@@ -46,7 +47,7 @@ GRAD_CLIP:
   USE: True
   VALUE: 1.0
 TARGET_SCALE_FACTOR: 1
-APPEND_VALID_MASK: False
+APPEND_VALID_MASK: True
 MIXED_PRECISION: False
 DEVICE: "0"
 DISTRIBUTED:

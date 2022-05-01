@@ -1,0 +1,69 @@
+DATA:
+  TRAIN_DATASET:
+    NAME: "flyingthings3d"
+    ROOT_DIR: "../../../Datasets/SceneFlow/FlyingThings3D"
+  VAL_DATASET:
+    NAME: "MPISintel"
+    ROOT_DIR: "../../../Datasets/MPI_Sintel"
+  BATCH_SIZE: 6
+  NUM_WORKERS: 1
+  PIN_MEMORY: True
+  TARGET_SCALE_FACTOR: 1
+  TRAIN_CROP_SIZE: [400, 720]
+  VAL_CROP_SIZE: [400, 720]
+  AUGMENTATION:
+    USE: True
+    PARAMS:
+      CROP_SIZE: [400, 720]
+      TRAINING:
+        SPATIAL_AUG_PARAMS: {"min_scale": -0.1, "max_scale": 1.0, "flip": True}
+      VALIDATION:
+        SPATIAL_AUG_PARAMS: {"aug_prob": 0.0}
+        COLOR_AUG_PARAMS: {"aug_prob": 0.0}
+        ERASER_AUG_PARAMS: {"aug_prob": 0.0}
+OPTIMIZER:
+  NAME: AdamW
+  LR: 0.000125
+  PARAMS:
+    weight_decay: 0.0001
+    eps: 1.e-08
+SCHEDULER:
+  USE: True
+  NAME: OneCycleLR
+  PARAMS:
+    max_lr: 0.0004
+    epochs: 100
+    steps_per_epoch: 2300
+    pct_start: 0.05
+    cycle_momentum: False
+    anneal_strategy: linear
+CRITERION:
+  CUSTOM: True
+  NAME: SequenceLoss
+  PARAMS: null
+GRAD_CLIP: 
+  USE: True
+  VALUE: 1.0
+TARGET_SCALE_FACTOR: 1
+APPEND_VALID_MASK: True
+MIXED_PRECISION: False
+DEVICE: "0"
+DISTRIBUTED:
+  USE: False
+  WORLD_SIZE: 2
+  RANK: 0
+  BACKEND: nccl
+  MASTER_ADDR: localhost
+  MASTER_PORT: "12355"
+LOG_DIR: "./logs"
+LOG_ITERATIONS_INTERVAL: 100
+CKPT_DIR: "./ckpts"
+CKPT_INTERVAL: 1
+VALIDATE_INTERVAL: 1
+VALIDATE_ON: metric
+EPOCHS: 100
+NUM_STEPS: null
+RESUME_TRAINING:
+  CONSOLIDATED_CKPT: null
+  EPOCHS: 100
+  START_EPOCH: null

@@ -1,20 +1,21 @@
 #!/bin/bash
 
-#SBATCH --time=72:00:00
-#SBATCH --job-name=flownetc-default-chairs
+#SBATCH --time=96:00:00
+#SBATCH --job-name=flownetc-default-chairs-run1
 #SBATCH --partition=jiang
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:a6000:1
-#SBATCH --output=../../../../Share/optical_flow/replications/outs/flownetc/chairs.out
+#SBATCH --output=../../../../Share/optical_flow/replications/outs/flownetc/chairs-run1.out
 
 
 module load cuda/11.3
 cd ..
-python train.py --train_cfg "configs/flownet_trainer.yaml" \
+python train.py --train_cfg "configs/flownet_chairs_trainer.yaml" \
                 --model "FlowNetC" \
                 --model_cfg "configs/models/flownetc_default.yaml" \
-                --log_dir "../../../Share/optical_flow/replications/logs/flownetc" \
-                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/flownetc" \
-                --epochs 100 \
-                --batch_size 10 \
+                --log_dir "../../../Share/optical_flow/replications/logs/flownetc/run1" \
+                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/flownetc/run1" \
+                --epochs 500 \
+                --batch_size 16 \
+                --target_scale_factor 20 \
                 --device "0" 
