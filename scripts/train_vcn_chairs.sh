@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --time=72:00:00
+#SBATCH --time=48:00:00
 #SBATCH --job-name=vcn-default-chairs-run1
 #SBATCH --partition=jiang
 #SBATCH --mem=32G
