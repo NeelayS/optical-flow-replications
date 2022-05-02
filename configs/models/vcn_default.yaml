@@ -12,6 +12,6 @@ DECODER:
     F_DIM_B2: 12 
     NORM: True
     ENTROPY: True
-SIZE: [16, 256, 256] # batch_size x H x W
+SIZE: [16, 320, 448] # batch_size x H x W
 MAX_DISPLACEMENTS: [2, 2, 2, 2, 2]
 FACTORIZATION: 1

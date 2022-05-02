@@ -10,12 +10,12 @@
 
 module load cuda/11.3
 cd ..
-python train.py --train_cfg "configs/flownet_trainer.yaml" \
+python train.py --train_cfg "configs/flownet_chairs_trainer.yaml" \
                 --model "FlowNetC" \
                 --model_cfg "configs/models/flownetc_default.yaml" \
-                --log_dir "../../../Share/optical_flow/replications/logs/flownetc/chairs" \
-                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/flownetc/chairs" \
+                --log_dir "../../../Share/optical_flow/replications/logs/flownetc/run1/chairs" \
+                --ckpt_dir "../../../Share/optical_flow/replications/ckpts/flownetc/run1/chairs" \
                 --resume True \
-                --resume_epochs 25 \
-                --resume_ckpt "../../../Share/optical_flow/replications/ckpts/flownetc/chairs/flownetc_epochs75.pth" \
+                --resume_epochs 436 \
+                --resume_ckpt "../../../Share/optical_flow/replications/ckpts/flownetc/run1/flownetc_epoch64.pth" \
                 --device "0" 
